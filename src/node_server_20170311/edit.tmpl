@@ -1,0 +1,36 @@
+<div class="row"><div class="col c4"><div class="pn"><div class="pnt">EDIT FILE</div><div style="text-align:center;padding:10px">
+<form method="POST" action="/api/wifi/set" class="frm">
+ <input id="filename" name="filename" type="text" placeholder="filename" class="in" style="width:300px">
+ <button type="button" class="btn-g" id="load">Load</button>
+ <button type="button" class="btn-r" id="save">Save</button>
+ <div class="sp"></div><textarea style="width:99%;height:300px;"></textarea>
+</form>
+
+</div>
+</div></div></div>
+<script>
+function ready(){
+
+  function update (r)
+  {
+    var j=JSON.parse(r);
+    if ( j )
+    {
+      console.log ( j );
+    
+    }
+  }
+
+  $("#load").addEventListener("click",function(){
+    var fn = $("#filename").value;
+    fn = fn.replace(/^\s+|\s+$/,"");
+    console.log ( fn );
+    if ( fn!=""){
+      ajax({url:"/api/file/open",method:"POST",body:"filename="+fn},function(code,rs,rq){if(code==200&&rs){update(rs);}});
+    }
+  });
+  $("#save").addEventListener("click",function(){
+//      console.log ( "save" );
+  });
+}
+</script>

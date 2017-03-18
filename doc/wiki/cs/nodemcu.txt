@@ -1,0 +1,85 @@
+﻿|**Project owner:**| [[user:lichnak|lichnak]], [[user:peterbay,|PeterBay]] |
+|**Interested:** |  |
+|**Related:**| |
+|**Reference:**| https://Espressif.com |
+| **License:** | [[https://creativecommons.org/licenses/by-sa/4.0/|Uveďte původ-Zachovejte licenci; CC BY-SA]]  |
+====== NodeMCU ======
+{{nodemcu-style5-150px.png_150x150.png}}
+
+Poslední velkou zajímavostí v oblasti levných IoT zařízení je bezdrátový mikrokontroler ESP8266 dodávaný čínským výrobcem [[https://Espressif.com/|Espressif Systems]]. Původní myšlenka byla vytvořit funkční UART bridge s WiFi pro mikrokontrolery. Nasledně vznikl ESP8266 mikrokontroler založený na procesoru 32-bit Tensilica Xtensa LX106 běžící na frekvenci 80 MHz s plně funkční WiFi sestavou.
+
+NodeMCU je open-source firmware a hardwarová vývojářská sada, která urychluje vývoj prototypů IoT zařízení v několika řádcích LUA skriptovacího prostředí. NodeMCU firmware je postaven pro čip ESP8266 WiFi SOC a přináší LUA skriptovací prostředí založené na jazyku eLua. Vývojářská sada NodeMCU je založena na ESP8266 a implementuje GPIO, PWM, IIC, 1-Wirend a ADC na jedné desce.
+
+Firmware [[https://github.com/nodemcu/nodemcu-firmware|NodeMCU Github]]
+
+Developer Kit v1.0 [[https://github.com/nodemcu/nodemcu-devkit-v1.0|NodeMCU DevKit 1.0 Github]]
+
+===== Hardware =====
+
+NodeMCU hardware je vybaven převodníkem [[https://labka.cz/wiki/doku.php?id=project:esp8266|ESP8266]] se zabudovaným WiFi vysílačem, dále čipem pro komunikaci přes seriový port 'USB to UART' [[https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/Documents/CP2102-9.pdf|CP2102-9]], lineárním DC stabilizátorem [[https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/Documents/SPX3819M5-L-3-3.pdf|SPX3819]],  A/D převodníkem [[https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/Documents/ss14.pdf|SS12]] a dvěmi tlačítky pro RST a FLASH [[https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/Documents/PTS820_4mar13-248116.pdf|PTS820]]
+
+=== Technické parametry ===
+
+  * CPU: 80/160 MHz Tensilica Xtensa LX106
+  * RAM: 64 KiB of instruction RAM, 96 KiB of data RAM
+  * Flash: 512M - 4M, velikost zaleží na modelu ESP8266
+  * WiFi zabudovaná v NodeMCU
+  * 16 GPIO pinů, SPI, I2C, I2S, UART, 10-bit ADC
+
+=== Diagramy ===
+
+Hardwarové zapojení jednotlivých částí NodeMCU je v dokumentaci na GitHubu. Dokumentaci zapojení najdete na [[https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/NODEMCU_DEVKIT_V1.0.PDF|NODEMCU_DEVKIT]]
+
+=== PIN Mapa ===
+
+{{nodemcu_devkit_v1.0_pinmap.png}}
+
+
+=== Důležité upozornění ===
+
+  * Pin D0 (''GPIO16'') můžete použít jenom jako //gpio// read/write a nepodporuje //interrupt/pwm/i2c/ow//.
+  * Při každém bootování, resetu ci probuzení pin ''GPIO15'' ''MUSÍ'' být nastaven na ''LOW'' a pin ''GPIO2'' ''MUSÍ'' být nastaven na ''HIGH''. K tomu třeba dát pozor na pin ''GPIO0'', který při nastavení na ''HIGH'' nabootuje do ''RUN'' módu a při nastavení na ''LOW'' se zapne ''FLASH'' mód.
+  * Pokud chcete použít ''SLEEP'' mód, pak propojte piny ''GPIO16'' a ''RST'', a ''GPIO16'' bude nastaven po každém probuzení na hodnotu ''LOW''.
+
+===== Firmware =====
+
+Programování NodeMCU vyžaduje programovací model velice podobny [[|Node.js]] a namísto JavaScript používáte LUA. Programovací model je asynchroní a even-driven model, který se vyplatí používat.
+
+Dokumentace k NodeMCU firmware a modulům je dostupná na adrese [[https://github.com/nodemcu/nodemcu-firmware|NodeMCU Documentation]].
+
+Firmware může obsahovat různé moduly, které jsou rozšířením funkcí pro jazyk eLua použitý v NodeMCU.
+Firmware je open source a je možné ho získat několika způsoby
+
+  - služba v cloudu, která podle zvolených komponent vytvoří požadovaný firmware [[https://nodemcu-build.com/|NodeMCU BUILD]]
+  - kompilací firmwaru v předpřipraveném [[https://hub.docker.com/r/marcelstoer/nodemcu-build/|Docker Image]]
+  - vytvořením vlastního prostředí s nástroji a toolchainem pro sestavení firmware
+  - stažením již existujícího firmwaru s vybranými moduly od třetích stran
+
+  
+===== IoT Infrastruktura =====
+
+Prvně uveďme předběžnou predstavu o zpracování dat ze senzorů a ovládání vzdálených zařízení. Hlavní komunikační a ovládací komponenty jsou postavené na technlogiích MQTT a REST API.
+
+{{wiki_nodemcu_mqtt_infra.png?750}}  
+  
+===== Vývojářské nástroje a systémy =====
+
+Následující návody kopírují požadavky IoT Infrastruktury pro instalaci vývojového a testovacího prostředí a zároveň přinášejí komfort do vývoje.  
+
+  * [[:project:nodemcu_lbe|NodeMCU Linux Firmware Build Environment]]
+  * [[:project:nodemcu_ubudev|NodeMCU Vývojářské prostředí pro Ubuntu]]
+  * [[:project:nodemcu_windev|NodeMCU Vývojářské prostředí pro Windows]]
+  * [[:project:nodemcu_le|NodeMCU LUA Skriptovací prostředí]]
+
+
+===== Prototypy =====
+
+Prototypizované sestavy zařízení a technologií pro následné začlenění do IoT Infrastruktury
+
+  * [[:project:nodemcu_httpd|NodeMCU HTTP Server]]
+  * [[:project:nodemcu_mqtt|NodeMCU MQTT Klient]]
+  * [[:project:nodemcu_ps|Perimetr Server]]
+  * [[:project:nodemcu_ccs|Central Control Server]]
+  * [[:project:nodemcu_lsa|Labka Smart API]]
+  * [[:project:nodemcu_sd|Smart Dashboard]]
+  * [[:project:nodemcu_ma|Mobile Applications]]

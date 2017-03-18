@@ -1,0 +1,32 @@
+
+--------------------------------------------------------------------------------
+soubor "app/modules/utils.c"
+--------------------------------------------------------------------------------
+  
+  #include "module.h"
+  #include "lauxlib.h"
+  
+  
+  // Lua: ow.setup( id )
+  static int utils_test( lua_State *L )
+  {
+    lua_pushstring(L, "hello world");
+    return 1;
+  }
+  
+  
+  // Module function map
+  static const LUA_REG_TYPE util_map[] = {
+    { LSTRKEY( "test" ),         LFUNCVAL( utils_test ) },
+    { LNILKEY, LNILVAL }
+  };
+  
+  NODEMCU_MODULE(UTILS, "utils", util_map, NULL);
+
+--------------------------------------------------------------------------------
+soubor "app/include/user_modules.h"
+--------------------------------------------------------------------------------
+
+  #define LUA_USE_MODULES_UTILS
+  
+--------------------------------------------------------------------------------

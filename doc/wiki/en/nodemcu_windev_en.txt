@@ -1,0 +1,329 @@
+﻿|**Project owner:**| [[user:lichnak|lichnak]], [[user:peterbay,|PeterBay]] |
+|**Interested:** |  |
+|**Related:**| |
+|**Reference:**| https://Espressif.com |
+| **License:** | [[https://creativecommons.org/licenses/by-sa/4.0/|Attribution-ShareAlike 4.0 International; CC BY-SA]]  |
+===== Developer's IDE for nodeMCU on Windows 10 =====
+Goal of this guide is to build Integrated Developement Environment (IDE) for work and development of nodeMCU solutions on operating system Windows 10.
+
+=== Content ===
+  * [[#Upload NodeMCU firmware|Upload NodeMCU firmware]]
+  * [[#ESP8266 Flasher Tool|SP8266 Flasher Tool]]
+  * [[#Upload LUA skripts to ESP8266|Upload LUA skripts to ESP8266]]
+  * [[#ESPlorer Tool|ESPlorer Tool]]
+  * [[#Install MongoDB Serveru|Install MongoDB Serveru]]
+  * [[#Install Node.js|Install Node.js]]
+  * [[#Instalal Python|Install Python]]
+  * [[#Install Node-Red|Install Node-Red]]
+  * [[#Install Mosquitto MQTT Broker|Install Mosquitto MQTT Broker]]
+  * [[#Testing MQTT protocol with MQTTLens|Testing MQTT protocol with MQTTLens]]
+ 
+==== Upload NodeMCU firmware ====
+
+In guide [[nodemcu_lbe:en|Linux Firmware Build Environment]] we went through steps how to compile nodeMCU firmware. Now we need upload firmware into ESP8266. For this purpose are available virious scripts and programs on the internet. Here we describe tool for Windows written in Delphi[[https://github.com/nodemcu/nodemcu-flasher|NodeMCU-Flasher]].
+
+Before we start uploading firmware enable ''FLASH'' mode. Flash mode can enable by pushing ''FLASH'' button on nodeMCU or before reboot set ''GPIO0'' pin to value ''LOW''. [[https://labka.cz/wiki/doku.php?id=project:nodemcu:en#important_warnings|Important warnings]]
+
+==== ESP8266 Flasher Tool ====
+
+Project's page on GitHub: [[https://github.com/nodemcu/nodemcu-flasher|NodeMCU Flasher]]
+
+Download from GitHub [[https://github.com/nodemcu/nodemcu-flasher|NodeMCU Flasher]].
+
+Opinion: Personally I'm using on Windows 10 for work with GIT software [[https://github.com/git/git-scm.com|GIT scm]].
+
+It is good to remeber where you downloaded ESP8266Flasher binaries from GitHub.
+<code>
+%PATHNODEMCUFLASHER%\Win64\Release\ESP8266Flasher.exe
+</code>
+
+Verify in Device Manager serial port number for communication with nodeMCUO.
+<code>
+%SYSTEMROOT%\System32\devmgmt.msc
+</code>
+
+{{project:wiki_nodemcu_comport_win.png}}
+
+=== Procedure for uploading firmware ===
+  * Connect to serial port
+{{ project:wiki_nodemcu_esp8266flasher_com.png?300 }}
+  * Change setting for communication with ESP8266 Flasher
+{{ project:wiki_nodemcu_esp8266flasher_config.png?300 }}
+  * Upload monolitic firmware //flash.bin// with ESP8266Flasher.exe to adress //0x00000//
+{{ project:wiki_nodemcu_esp8266flasher_mono.png?300 }}
+  * Upload compiled bootloader //bin/0x00000.bin// to adress //0x00000// and firmware //bin/0x10000.bin// to adress //0x10000//
+{{ project:wiki_nodemcu_esp8266flasher_dual.png?300 }}
+  * Confirm previous steps to upload firmware to ESP8266
+{{ project:wiki_nodemcu_esp8266flasher_flashing.png?300 }}
+  * Wait for success
+{{ project:wiki_nodemcu_esp8266flasher_success.png?300 }}
+
+==== Upload LUA skripts to ESP8266 ====
+Tools for uploading LUA scripts areavaile in big variety and tools are documented for example [[https://nodemcu.readthedocs.io/en/master/en/upload/|here]].
+
+==== ESPlorer Tool====
+ESPlorer is IDE for ESP8266, primary supporting LUA, MicroPython and sevel AT commands for ESP8266. ESPlorer requirers installed package JAVA Standard Edition verion 7 and higher.
+
+
+Project's page on GitHub: [[https://github.com/4refr0nt/ESPlorer|ESPlorer]]
+
+
+Download ESPlorer [[http://esp8266.ru/esplorer/#download|here]].
+
+Supported platforms:
+
+  * Windows(x86, x86-64)
+  * Linux(x86, x86-64, ARM soft & hard float)
+  * Solaris(x86, x86-64)
+  * Mac OS X(x86, x86-64, PPC, PPC64)
+  
+{{ project:wiki_nodemcu_esplorer.png }}
+
+Output from ESPlorer console
+<code>
+> =node.heap()
+45264
+> 
+</code>
+
+
+==== Install MongoDB Server ====
+For Datastorage engin with communication with Node.js was choosen MondoDB. MongoDB is a free and open-source cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with schemas. MongoDB is developed by MongoDB Inc. and is free and open-source, published under a combination of the GNU Affero General Public License and the Apache License.
+
+Original install guide is [[https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/|here]]. 
+
+  * First download isntallation package [[https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-3.2.10-signed.msi|mongodb-win32-x86_64-2008plus-ssl-3.2.10-signed.msi]]
+  * Install mongodb-win32-x86_64-2008plus-ssl-3.2.10-signed.msi package
+  * Add install MongoDB path to system variable PATH
+<code>
+PS C:\> $env:path += ";" + "C:\Program Files\mongodb\Server\3.2\bin"
+PS C:\> [Environment]::SetEnvironmentVariable("PATH", $env:path, "Machine")
+</code>
+  * Create folders for databases
+<code>
+PS C:\> New-Item -ItemType "directory" -Path c:\data -Force
+PS C:\> New-Item -ItemType "directory" -Path c:\data\db -Force
+</code>
+  * Create folders for logs
+<code>
+PS C:\> New-Item -ItemType "directory" -Path "c:\data\log" -Force
+</code>
+  * Create log file
+<code>
+PS C:\> New-Item -ItemType "file" -Path "c:\data\log\mongo.log" -Force
+</code>
+  * Create MongoDB configuration file
+<code>
+PS C:\> New-Item -ItemType "file" -Path "C:\Program Files\MongoDB\Server\3.2\bin\mongod.cfg" -Force
+PS C:\> $MONGODBCONF = "systemLog:`n    destination: file`n    path: c:\data\log\mongo.log`nstorage:`n    dbPath: c:\data\db"
+PS C:\> $MONGODBCONF | Out-File -FilePath "C:\Program Files\MongoDB\Server\3.2\bin\mongod.cfg" -Append
+PS C:\> more "C:\Program Files\MongoDB\Server\3.2\bin\mongod.cfg"
+systemLog:
+    destination: file
+    path: C:\Data\log\mongod.log
+storage:
+    dbPath: C:\Data\db
+</code>
+  * Create MongoDB service
+<code>
+PS C:\> Invoke-Expression "& `"C:\Program Files\MongoDB\Server\3.2\bin\mongod.exe`" --config `"C:\Program Files\MongoDB\Server\3.2\bin\mongod.cfg`" --install"
+</code>
+
+For semi-automated I wrote in PowerShell 5 [[https://github.com/lichnak/nodemcu-labka/blob/master/doc/wiki/cs/InstallMongoDB.ps1|MongDB Installation PowerShell Script]]
+ 
+==== Install Node.js ==== 
+[[http://nodejs.org/|Node.js]] is an open-source, cross-platform JavaScript runtime environment for developing a diverse variety of server tools and applications. Although Node.js is not a JavaScript framework,[4] many of its basic modules are written in JavaScript, and developers can write new modules in JavaScript. The runtime environment interprets JavaScript using Google's V8 JavaScript engine.
+
+Project documenation of [[https://nodejs.org/download/release/latest/docs/api/|Node.js API]]
+
+Warning: If you use node.js version v7.1.0, it is recommended to reinstall node.js to version v7.0.0. Node.js v7.1.0 has know error on Windows platform, error causes node.js to crash when you use for node.js consoles Powershell or CMD.
+
+  * Download 64-bit verion of Node.js (32-bit is for hipsters) [[https://nodejs.org/download/release/v7.0.0/node-v7.0.0-x64.msi|node-v7.0.0-x64.msi]]
+  * Install ''node-v7.0.0-x64.msi'' package, deafault install path is ''C:\Program Files\nodejs''
+  * If you didn't select option ''Add PATH'', then add node.js install path to system variable ''PATH'' 
+  * Now that the ''PATH'' variable is set correctly, you will still encounter errors. Manually go into the AppData directory and you will find that there is no npm directory inside Roaming. Manually create this directory.
+<code>
+PS C:\> $NPMPATH = $Env:USERPROFILE + "\AppData\Roaming\npm"
+PS C:\> New-Item -ItemType "directory" -Path $NPMPATH
+PS C:\> $Env:PATH += ";" + $NPMPATH + ";C:\Program Files\nodejs"
+PS C:\> [Environment]::SetEnvironmentVariable("PATH", $Env:PATH, "Machine")
+</code>
+
+
+==== Install Python ==== 
+
+Next steps are to install Python in version  2.7, because node.js package node-gyf is dependent on Python2.7 and haven't started to support Pyhthon v3.x.x yet.
+
+  * Download 64-bit verion of [[https://www.python.org/downloads/windows/download|Python v2.7]]
+  * Install ''python-2.7.12.amd64.msi'' package
+  * Select default installation options and add Python install path to system variables ''PATH'' and ''PYTHON''
+<code>
+PS C:\> $Env:PATH += ";C:\Program Files\Python27"
+PS C:\> [Environment]::SetEnvironmentVariable("PATH", $Env:PATH, "Machine")
+PS C:\> [Environment]::SetEnvironmentVariable("PYTHON", "C:\Program Files\Python27", "Machine")
+</code>
+  * Setup Node.js for installed Python version
+<code>
+  PS C:\> cd "C:\Program Files\nodejs\"
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>npm config set python "C:\Program Files\Python27\python.exe"
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs> 
+</code>
+
+
+==== Install Node-Red ====
+
+To aviod dependency conflicts first step is to install Microsoft compilator ''windows-build-tools'' for Node.js packages.
+And sedcond step is now ito nstall rest of Node-Red dependency packages.  
+<code>
+PS C:\> cd "C:\Program Files\nodejs\"
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>npm install -g --production windows-build-tools
+C:\Program Files\nodejs>npm install -g node-gyp
+C:\Program Files\nodejs>npm install -g bindings
+C:\Program Files\nodejs>npm install -g bcrypt
+C:\Program Files\nodejs>npm install -g bson
+C:\Program Files\nodejs>npm install -g bufferutil
+C:\Program Files\nodejs>npm install -g kerberos
+C:\Program Files\nodejs>npm install -g mqtt
+C:\Program Files\nodejs>npm install -g mongodb
+C:\Program Files\nodejs>npm install -g nan
+C:\Program Files\nodejs>npm install -g node-sass
+C:\Program Files\nodejs>npm install -g options
+C:\Program Files\nodejs>npm install -g phantomjs
+C:\Program Files\nodejs>npm install -g pm2
+C:\Program Files\nodejs>npm install -g pm2-windows-startup
+C:\Program Files\nodejs>npm install -g sqlite3
+C:\Program Files\nodejs>npm install -g ultron
+C:\Program Files\nodejs>npm install -g utf-8-validate
+C:\Program Files\nodejs>npm install -g ws
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs> 
+</code>
+
+
+Configuration of package pm2-windows-startup
+<code>
+PS C:\> cd "C:\Program Files\nodejs\"
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>pm2-startup install
+C:\Program Files\nodejs>pm2 save
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs>
+</code>
+
+
+Install Node-Red
+<code>
+PS C:\> cd "C:\Program Files\nodejs\"
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>npm install -g node-red
+C:\Program Files\nodejs>npm install -g node-red-dashboard
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs>
+</code>
+
+Start Node-Red
+<code>
+PS C:\> cd "C:\Program Files\nodejs\"
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>node "%USERPROFILE%\AppData\Roaming\npm\node_modules\node-red\red.js"
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs>
+</code>
+
+Configure Node-Red for automatic start
+<code>
+PS C:\> cd "C:\Program Files\nodejs\"
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>pm2 start "%USERPROFILE%\AppData\Roaming\npm\node_modules\node-red\red.js"
+C:\Program Files\nodejs>pm2 save
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs>
+</code>
+
+Now your can find your Node-RED editor installation at [[http://localhost:1880|http://localhost:1880]]
+
+{{project:wiki_nodemcu_windev_nodered.png}}
+
+==== Install Mosquitto MQTT Broker ====
+For role MQTT Brokera in IDE  was chosen software Mosquitto.
+
+  * First download installation files for [[https://slproweb.com/download/Win32OpenSSL_Light-1_0_2j.exe|OpenSSL]], [[http://mirror.ibcp.fr/pub/eclipse//mosquitto/binary/win32/mosquitto-1.4.10-install-win32.exe|Mosquitto]] and library [[ftp://sources.redhat.com/pub/pthreads-win32/dll-latest/dll/x86/pthreadVC2.dll|pThreads]]
+  * Install OpenSSL package ''Win32OpenSSL_Light-1_0_2j.exe''
+  * Install Mosquitto package ''mosquitto-1.4.10-install-win32.exe''
+  * Copy library ''pthreadVC2.dll'' to Mosquitto install folder.
+<code>
+PS C:\> dir "C:\Program Files (x86)\mosquitto\pthreadVC2.dll"
+
+
+    Directory: C:\Program Files (x86)\mosquitto
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        27.5.2012      1:00          55808 pthreadVC2.dll
+</code>
+  * Copy OpenSSL libraries ''libeay32.dll'' and ''ssleay32.dll'' to Mosquitto install folder
+<code>
+PS C:\> dir "C:\Program Files (x86)\OpenSSL-Win32-102j\*eay32.dll"
+
+
+    Directory: C:\Program Files (x86)\OpenSSL-Win32-102j
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        26.9.2016     10:00        1265664 libeay32.dll
+-a----        26.9.2016     10:00         274432 ssleay32.dll
+
+PS C:\> copy "C:\Program Files (x86)\OpenSSL-Win32-102j\*eay32.dll" "C:\Program Files (x86)\mosquitto\"
+PS C:\> dir "C:\Program Files (x86)\mosquitto\*eay32.dll"
+
+
+    Directory: C:\Program Files (x86)\mosquitto
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        26.9.2016     10:00        1265664 libeay32.dll
+-a----        26.9.2016     10:00         274432 ssleay32.dll
+</code>
+  * If you need change Mosquitto configuration
+<code>
+PS C:\> notepad "C:\Program Files (x86)\mosquitto\mosquitto.conf"
+</code>
+  * Start Mosquitto service
+<code>
+PS C:\> Set-Service Mosquitto -Status Running
+PS C:\> Get-Service Mosquitto
+
+Status   Name               DisplayName
+------   ----               -----------
+Running  mosquitto          Mosquitto Broker
+</code>
+
+
+==== Testing MQTT protocol with MQTTLens ====
+For testing of MTTQ Broker and data on MQTT protocal is used Chrome extensinon MQTTLens
+
+{{project:wiki_nodemcu_mqttlens.png?750}}

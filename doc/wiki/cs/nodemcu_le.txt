@@ -1,0 +1,55 @@
+﻿|**Project owner:**| [[user:lichnak|lichnak]], [[user:peterbay,|PeterBay]] |
+|**Interested:** |  |
+|**Related:**| |
+|**Reference:**| https://Espressif.com |
+| **License:** | [[https://creativecommons.org/licenses/by-sa/3.0/|Uveďte původ-Zachovejte licenci; CC BY-SA]]  |
+===== NodeMCU - LUA Skriptovací prostředí =====
+
+Dokumentace k NodeMCU firmware skriptovacího prostředí na adrese [[https://nodemcu.readthedocs.io/en/master/|NodeMCU LUA Scripting Documentation]].
+
+=== Souborová struktura ===
+
+Po rebootu NodeMCU spustí inicializační soubor //init.lua//. Nelze vytvářet složky.
+
+__Příklad použití //init.lua// a //wifi.lua//:__
+
+Soubor //init.lua//
+<code>
+-- init.lua --
+
+-- Global Variables (most of the time keep it empty)
+
+-- Run the wifi file
+dofile("wifi.lua")
+</code>
+
+Soubor //wifi.lua//
+<code>
+-- Fill up correct setup
+local ssid = "WiFiNET"
+local pass = "bubabbaba"
+
+-- Configure Wireless Internet
+print('\nProcesing wifi.lua\n')
+wifi.setmode(wifi.STATION)
+print('set mode=STATION (mode='..wifi.getmode()..')\n')
+print('MAC Address: ',wifi.sta.getmac())
+print('Chip ID: ',node.chipid())
+print('Heap Size: ',node.heap(),'\n')
+-- Wifi Config Start
+wifi.sta.config(ssid,pass)
+-- Wifi Config End
+
+-- WiFi Connection Verification
+tmr.alarm(0, 1000, 1, function()
+    if wifi.sta.getip() == nil then
+        print("Connecting to AP...\n")
+    else
+        ip, nm, gw=wifi.sta.getip()
+        print("IP Info: \nIP Address: ",ip)
+        print("Netmask: ",nm)
+        print("Gateway Addr: ",gw,'\n')
+        tmr.stop(0)
+    end
+end)
+</code>

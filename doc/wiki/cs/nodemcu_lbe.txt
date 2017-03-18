@@ -1,0 +1,75 @@
+|**Project owner:**| [[user:lichnak|lichnak]], [[user:peterbay,|PeterBay]] |
+|**Interested:** |  |
+|**Related:**| |
+|**Reference:**| https://Espressif.com |
+| **License:** | [[https://creativecommons.org/licenses/by-sa/4.0/|Uveïte pùvod-Zachovejte licenci; CC BY-SA]]  |
+===== NodeMCU - Linux Build Environment =====
+
+Návod jak postupovat pøi instalaci a nastavení prostøedí na Ubuntu Serveru, a následné kompilace firmware pomocí nástroje ''make''.
+
+Originální návod je dostupný na [[http://www.esp8266.com/wiki/doku.php?id=toolchain#how_to_setup_a_vm_to_host_your_toolchain|ESP8266 Wiki]]
+
+Prostøedí pro kompilaci firmware pro NodeMCU je postaveno na serveru Ubuntu.
+
+Pro instalaci nám staèí mini verze.
+[[http://archive.ubuntu.com/ubuntu/dists/precise-updates/main/installer-amd64/current/images/netboot/mini.iso|64-bit Ubuntu (mini.iso)]] 
+
+V instalátoru Ubuntu vybereme pouze **"Basic Ubuntu Server"** a **"openSSH Server"**
+
+Po restaru je potøeba doinstalovat následující aplikace
+<code>
+sudo apt-get install build-essential zip gdb vim make unrar autoconf automake bison texinfo libtool mc gcc g++ gperf libc-dbg ncurses-dev expat lua5.1 lua5.1-doc luarocks gperf bison flex texinfo git help2man gawk python python-pip unzip screen python2.7 python-serial
+
+for m in lua-bitlib luafilesystem md5 luaposix luasocket; do sudo luarocks install $m; done
+
+sudo pip install mkdocs
+</code>
+
+Stáhnout z githubu **ESP Open SDK** a spustit **make**
+<code>
+git clone --recursive https://github.com/pfalcon/esp-open-sdk
+
+cd esp-open-sdk
+
+make STANDALONE=y |& tee make0.log
+</code>
+
+Pokud se pøi spuštìní **make STANDALONE=y |& tee make0.log** vyskytne chyba (chybìjící aplikace a pod.), tak je tøeba ji doinstalovat a spustit **make STANDALONE=y |& tee make0.log** znovu
+
+Editovat soubor ''~/.bashrc'' a pøidat na jeho konec
+<code>
+export PATH="$HOME/esp-open-sdk/xtensa-lx106-elf/bin/:$PATH"
+alias xgcc="xtensa-lx106-elf-gcc"
+</code>
+
+Na stránce s [[https://github.com/nodemcu/nodemcu-firmware/releases|firmware]] zjistit odkaz na poslední verzi
+
+Stáhnout zdrojové soubory a rozbalit je
+<code>
+cd ~
+wget https://github.com/nodemcu/nodemcu-firmware/archive/1.5.4.1-master_20161201.zip
+wget https://github.com/nodemcu/nodemcu-firmware/archive/2.0.0-master_20170202.zip
+unzip 1.5.4.1-master_20161201.zip -d nodemcu-firmware
+unzip 2.0.0-master_20170202.zip -d nodemcu-firmware
+</code>
+
+Otevøít adresáø
+<code>
+cd ~/nodemcu-firmware/nodemcu-firmware-1.5.4.1-master_20161201
+</code>
+
+V souboru ''user_modules.h'' je možné zapínat a vypínat moduly, které budou zahrnuty do firmware
+<code>
+mcedit app/include/user_modules.h
+</code>
+
+Spuštìní kompilace firmware se provede pøíkazem
+<code>
+make
+</code>
+
+Výsledný bootloader a firmware je uložen ve složce bin, napø.
+<code>
+-rw-rw-r--  1 node node  27872 Oct 26 11:21 0x00000.bin
+-rw-rw-r--  1 node node 357683 Oct 26 11:21 0x10000.bin
+</code>

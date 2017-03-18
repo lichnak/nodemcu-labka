@@ -1,0 +1,28 @@
+<div class="col c4"><div class="pn"><div class="pnt">Remote Console</div><div style="text-align:left;padding:20px;">
+<div id="console" style="width:100%;height:300px;overflow:auto;background:#333;margin-bottom:5px;color:#eee;font-family:monospace;"></div>
+<div><input id="cmd" name="cmd" type="text" placeholder="// type command + enter" class="in" style="width:100%;"></div>
+</div></div></div>
+<div class="col c4"><div class="pn"><div class="pnt">Remote Commands</div><div id="remcmd" style="text-align:left;padding:20px;">
+</div></div></div>
+<script>
+var sendCmd = function(cmdVal){};
+function ready(){
+var cmd=$("#cmd"),con=$("#console"),url="/api/console";
+sendCmd = function(cmdVal){
+var row=document.createElement("DIV"),inp=document.createElement("SPAN"),out=document.createElement("SPAN");
+inp.style.color="#fc0";inp.innerHTML="> "+cmdVal;out.innerHTML="...";
+row.appendChild(inp);row.appendChild(document.createElement("BR"));row.appendChild(out);con.appendChild(row);
+con.scrollTop=con.scrollHeight;
+if(cmdVal!=""){
+ajax({url:url,method:"POST",body:"cmd="+encodeURIComponent(cmdVal)},function(code,rs,rq){
+if(code==200){if(rs){out.innerHTML=HTMLEncode(rs);}else{out.style.color="#777";out.innerHTML="empty output";}
+}else{out.style.color="#f00";out.innerHTML=code+" "+HTMLEncode(rs);}
+con.scrollTop=con.scrollHeight;
+});}
+}
+if(cmd){cmd.addEventListener("keydown",function(event){
+if(event&&event.keyCode&&event.keyCode==13){
+sendCmd(cmd.value);
+cmd.value="";return false;}return true;})}}
+</script>
+<script src="/static/console.js"></script>

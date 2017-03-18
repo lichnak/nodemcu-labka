@@ -1,0 +1,9 @@
+<div class="row"><div class="col c1"><div class="pn"><div class="pnt">Door Switch</div><div class="pnc"><div class="ce"><div class="sb"><input class="sw" type="checkbox" id="doorSw" name="doorSw"><label for="doorSw" class="swl"></label></div></div></div></div></div><div class="col c1"><div class="pn"><div class="pnt">Garage doors</div><div class="pnc"><div class="ce"><h2><span id="doorMsg"></span></h2></div></div></div></div><div class="col c1"><div class="pn"><div class="pnt">Temp indoor</div><div class="pnc"><div class="ce" id="tin"></div></div></div></div><div class="col c1"><div class="pn"><div class="pnt">Temp outdoor</div><div class="pnc"><div class="ce" id="tout"></div></div></div></div>
+</div>
+<script>function ready(js){window[js]=1;if(window.lib_main && window.lib_svg){
+ajaxRefresh("/api/dash","POST","",500);
+bindClick("@doorSw","/api/switch");
+svgBuild("#tin","t",{id:"tin",color:"#34e",min:-20,max:50});
+svgBuild("#tout","t",{id:"tout",color:"#3e4",min:-20,max:50});
+jsonUpdate('{"#tind":{"_":"Temp In"},"#tinn":{"_":"-20 °C"},"#tinx":{"_":"50 °C"},"#toutd":{"_":"Temp Out"},"#toutn":{"_":"-20 °C"},"#toutx":{"_":"50 °C"}}');
+}}</script><script src="/static/svg.js"></script>

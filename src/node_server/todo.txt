@@ -1,0 +1,23 @@
+=== FIRMWARE ===================================================================
+
+
+
+
+
+
+
+=== MODULES ====================================================================
+udelat modul "utils"
+
+-- utils ---
+  modulesList() - udelat vypis seznamu dostupnych modulu
+  gpioReadAll() - precteni stavy vsech GPIO (at se nemusi cist po jednom)
+
+--- svg --- modul pro generovani kolacu, grafu a infografiky 
+
+=== GUI ========================================================================
+
+
+
+
+

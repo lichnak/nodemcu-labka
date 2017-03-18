@@ -1,0 +1,78 @@
+|**Project owner:**| [[user:lichnak|lichnak]], [[user:peterbay,|PeterBay]] |
+|**Interested:** |  |
+|**Related:**| |
+|**Reference:**| https://Espressif.com |
+| **License:** | [[http://creativecommons.org/licenses/by-sa/4.0/|Attribution-ShareAlike 4.0 International; CC BY-SA]]  |
+===== NodeMCU Linux Build Environment =====
+
+Installation and configuratin guide of required toolchain for successful compilation of nodeMCU firmware with ''make'' tool.
+
+Original guide at [[http://www.esp8266.com/wiki/doku.php?id=toolchain|ESP8266 Wiki]]
+
+Linux build environemnt for nodeMCU firmware is based on Ubuntu Server.
+
+Mini iso version will be enough for firmware compilation purpose.
+[[http://archive.ubuntu.com/ubuntu/dists/precise-updates/main/installer-amd64/current/images/netboot/mini.iso|64-bit Ubuntu (mini.iso)]] 
+
+In Ubuntu Installer select options **"Basic Ubuntu Server"** and **"openSSH Server"**
+
+After reboot install software required by toolchain
+<code>
+sudo apt-get install build-essential zip gdb vim make unrar autoconf automake bison texinfo libtool mc gcc g++ gperf libc-dbg ncurses-dev expat lua5.1 lua5.1-doc luarocks gperf bison flex texinfo git help2man gawk python python-pip unzip screen python2.7 python-serial
+
+for m in lua-bitlib luafilesystem md5 luaposix luasocket; do sudo luarocks install $m; done
+
+sudo pip install mkdocs
+</code>
+
+Download **ESP Open SDK** from GitHub and run **make**
+<code>
+git clone --recursive https://github.com/pfalcon/esp-open-sdk
+
+cd esp-open-sdk
+
+make STANDALONE=y |& tee make0.log
+</code>
+
+If running **make STANDALONE=y |& tee make0.log** makes error (missing application, etc.), then install missinf application and run **make STANDALONE=y |& tee make0.log** again.
+
+Open file ''~/.bashrc'' for editing and add two lines at the end.
+<code>
+export PATH="$HOME/esp-open-sdk/xtensa-lx106-elf/bin/:$PATH"
+alias xgcc="xtensa-lx106-elf-gcc"
+</code>
+
+Find the firmware version you want to compile on page with [[https://github.com/nodemcu/nodemcu-firmware/releases|firmware]]
+
+Download and extract firmware source code
+<code>
+cd ~
+wget https://github.com/nodemcu/nodemcu-firmware/archive/1.5.4.1-master_20161201.zip
+unzip 1.5.4.1-master_20161201.zip -d nodemcu-firmware
+
+or
+
+wget https://github.com/nodemcu/nodemcu-firmware/archive/2.0.0-master_20170202.zip
+unzip 2.0.0-master_20170202.zip -d nodemcu-firmware
+</code>
+
+Navigate to firmware folder
+<code>
+cd ~/nodemcu-firmware/nodemcu-firmware-1.5.4.1-master_20161201
+</code>
+
+In file ''user_modules.h'' can enable or disable firmware modules with which will be compiled 
+<code>
+mcedit app/include/user_modules.h
+</code>
+
+Run firmware compilation
+<code>
+make
+</code>
+
+Compiled bootloader and firmware is stored in folder bin, e.g.
+<code>
+-rw-rw-r--  1 node node  27872 Oct 26 11:21 0x00000.bin
+-rw-rw-r--  1 node node 357683 Oct 26 11:21 0x10000.bin
+</code>

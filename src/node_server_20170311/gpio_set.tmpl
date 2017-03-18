@@ -1,0 +1,31 @@
+<div class="row"><div class="col c4"><div class="pn"><div class="pnt">GPIO</div><div style="text-align:center;padding:10px"><table class="tb" id="gpiot">
+<thead><th>IO Index</th><th>ESP8266 pin</th><th>State</th></thead>
+<tbody id="tb">
+<tr><td>10</td><td>GPIO1</td><td><input name=</td></tr>
+<tr><td>4</td><td>GPIO2</td><td><span id="i4">...</span></td></tr>
+<tr><td>9</td><td>GPIO3</td><td><span id="i9">...</span></td></tr>
+<tr><td>2</td><td>GPIO4</td><td><span id="i2">...</span></td></tr>
+<tr><td>1</td><td>GPIO5</td><td><span id="i1">...</span></td></tr>
+<tr><td>11</td><td>GPIO9</td><td><span id="i11">...</span></td></tr>
+<tr><td>12</td><td>GPIO10</td><td><span id="i12">...</span></td></tr>
+<tr><td>16</td><td>GPIO12</td><td><span id="i6">...</span></td></tr>
+<tr><td>7</td><td>GPIO13</td><td><span id="i7">...</span></td></tr>
+<tr><td>5</td><td>GPIO14</td><td><span id="i5">...</span></td></tr>
+<tr><td>8</td><td>GPIO15</td><td><span id="i8">...</span></td></tr>
+<tr><td>0</td><td>GPIO16</td><td><span id="i0">...</span></td></tr>
+</tbody>
+</table>
+</div>
+</div></div></div>
+<script>
+function ready(){
+
+  function inp (p,n,i,v){
+    var inp=document.createElement("INPUT");inp.setAttribute("name",n);inp.setAttribute("index",i);inp.setAttribute("value",v);p.appendChild(inp);
+  }
+  var p=$("#tb");
+  console.log ( p );
+
+//   ajaxRefresh("/api/gpio_stats","POST","",5000,true);
+}
+</script>

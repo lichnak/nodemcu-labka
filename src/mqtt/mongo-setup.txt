@@ -1,0 +1,54 @@
+mongo --port 27017 --authenticationDatabase "admin"
+
+Create the user administrator.
+
+use admin
+db.createUser(
+  {
+    user: "admin",
+    pwd: "p7kh0tUyjxg6KMmw7cVA",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  }
+)
+
+
+HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\MongoDB
+REG_EXPAND_SZ:ImagePath:"C:\Program Files\mongodb\Server\3.2\bin\mongod.exe" --auth --config "C:\Program Files\mongodb\Server\3.2\bin\mongod.cfg" --service
+
+
+mongo --port 27017 -u "admin" -p "p7kh0tUyjxg6KMmw7cVA" --authenticationDatabase "admin"
+
+
+use mqtt
+db.createUser( { user: "mqtt",
+                 pwd: "PoXwMxqCLGxD794ZnH6B",
+                 roles: [ { role: "clusterAdmin", db: "admin" },
+                          { role: "readAnyDatabase", db: "admin" },
+                          "readWrite"] },
+               { w: "majority" , wtimeout: 5000 } )
+
+
+
+
+mongo --port 27017 -u "mqtt" -p "PoXwMxqCLGxD794ZnH6B" --authenticationDatabase "mqtt"
+
+use mqtt
+
+
+db.temperatures.insert( { "_id": "node_1795243",
+                          "data":{
+                          "humidity": "86",
+                          "temperature":"23.5",
+                          "heatindex":"10",
+                          "light":"44",
+                          "date":"2016-12-20T15:31:07.431Z"}
+                          } )
+                          
+                          
+db.temperatures.insert( { _id: "node_1795243",
+                          events: [
+                          { event: { value: "31", when: ISODate("2014-02-05T15:31:07.431Z") } },
+                          { event: { value: "32", when: ISODate("2014-02-05T15:31:08.432Z") } },
+                          { event: { value: "33", when: ISODate("2014-02-05T15:31:09.432Z") } },
+                          { event: { value: "32", when: ISODate("2014-02-05T15:31:10.434Z") } }
+                          ] } )

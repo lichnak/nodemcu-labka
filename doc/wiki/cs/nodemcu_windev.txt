@@ -1,0 +1,350 @@
+﻿|**Project owner:**| [[user:lichnak|lichnak]], [[user:peterbay,|PeterBay]] |
+|**Interested:** |  |
+|**Related:**| |
+|**Reference:**| https://Espressif.com |
+| **License:** | [[http://creativecommons.org/licenses/by-sa/4.0/|Uveďte původ-Zachovejte licenci; CC BY-SA]]  |
+===== NodeMCU Vývojářské prostředí pro Windows =====
+Cílem tohoto návodu je vytvořit vývojařské prostředí pro práci a vývoj NodeMCU řešení na operačním systému Windows 10.
+
+Většina snippetů byla vyzkoušena v PowerShellu verze 5. PowerShell verze 5 je součástí balíčku The Windows Management Framework (WMF) 5.0 RTM. Balíček pro Windows 2008 R2 SP1/2012 R2/2012 a Windows 7 SP1/8.1 můžete stáhnout na stránce [[https://www.microsoft.com/en-us/download/details.aspx?id=50395|Microsoft Download Center]].
+<code>
+PS C:\>  $PSVersionTable.PSVersion
+
+Major  Minor  Build  Revision
+-----  -----  -----  --------
+5      1      14393  206
+</code>
+
+
+=== Obsah ===
+  * [[#Nahrání NodeMCU firmware|Nahrání NodeMCU firmware]]
+  * [[#Nástoj ESP8266 Flasher|Nástoj ESP8266 Flasher]]
+  * [[#Nahrání LUA skriptů na ESP8266|Nahrání LUA skriptů na ESP8266]]
+  * [[#Nástroj ESPlorer|Nástroj ESPlorer]]
+  * [[#Instalace MongoDB Serveru|Instalace MongoDB Serveru]]
+  * [[#Instalace Node.js|Instalace Node.js]]
+  * [[#Instalace Pythonu|Instalace Pythonu]]
+  * [[#Instalace Node-Red|Instalace Node-Red]]
+  * [[#Instalace Mosquitto MQTT Broker|Instalace Mosquitto MQTT Broker]]
+  * [[#Testování MQTT s MQTTLens|Testování MQTT s MQTTLens]]
+
+ 
+==== Nahrání NodeMCU firmware ====
+
+V návodu [[nodemcu_lbe|Linux Firmware Build Environment]] jsme si ukázali jak NodeMCU firmware zkompilovat. Firmware je nyní potřeba do ESP8266 nahrát. K tomuto účelu jsou na internetu dostupné programy a skripty. Předvedeme si nástroj pro Windows napsaný v Delphi [[https://github.com/nodemcu/nodemcu-flasher|NodeMCU-Flasher]].
+
+Před nahráním NodeMCU firmware se ujistěte, že jej se máte zkompilovaný. Také před nahráním firmwaru je třeba na NodeMCU zapnout FLASH mód a budťo zmáčknutím tlačítka FLASH na NodeMCU nebo před rebootem nastavte na pin ''GPIO0'' na hodnotu ''LOW''. [[nodemcu#Důležité upozornění|Viz. upozornění]]
+
+
+==== Nástoj ESP8266 Flasher ====
+
+Stránka projektu na GitHubu: [[https://github.com/nodemcu/nodemcu-flasher|NodeMCU Flasher]]
+
+Stáhněte  z GitHubu [[https://github.com/nodemcu/nodemcu-flasher|NodeMCU Flasher]].
+
+Osobně používám pro práci s GIT prostředím na Windows 10 [[https://github.com/git/git-scm.com|GIT scm]].
+
+ESP8266Flasher najdete ve ložce kam jste si stáhli soubory z GitHubu.
+<code>
+%PATHNODEMCUFLASHER%\Win64\Release\ESP8266Flasher.exe
+</code>
+
+Ověřit ve Správci zařízení seriový port pro kominikaci s NodeMCU.
+<code>
+%SYSTEMROOT%\System32\devmgmt.msc
+</code>
+
+{{project:wiki_nodemcu_comport_win.png}}
+
+=== Postup pro nahrání firmwaru ===
+  * Připojit se na správný seriový port
+{{ project:wiki_nodemcu_esp8266flasher_com.png?300 }}
+  * Změnit nastavení komunikace pro ESP8266 Flasher
+{{ project:wiki_nodemcu_esp8266flasher_config.png?300 }}
+  * Pomocí ESP8266Flasher.exe jsem nahrál vzniklý monolitický //flash.bin// do adresy //0x00000//
+{{ project:wiki_nodemcu_esp8266flasher_mono.png?300 }}
+  * Nebo pomocí ESP8266Flasher.exe jsem nahrál vzniklý bootloader //bin/0x00000.bin// do adresy //0x00000// a firmware //bin/0x10000.bin// na adresu //0x10000//
+{{ project:wiki_nodemcu_esp8266flasher_dual.png?300 }}
+  * Předchozí kroky potvrdíme náhráním firmware na NodeMCU
+{{ project:wiki_nodemcu_esp8266flasher_flashing.png?300 }}
+  * Nakonec se dočkáme uspěchu
+{{ project:wiki_nodemcu_esp8266flasher_success.png?300 }}
+
+==== Nahrání LUA skriptů na ESP8266 ====
+
+Nástrojů pro nahravání existuje víc než dost a jsou zdokumentovány [[https://nodemcu.readthedocs.io/en/master/en/upload/|zde]].
+
+
+==== Nástroj ESPlorer ====
+ESPlorer je integrované vývojařské prosředí pro ESP8266, primarně podporující LUA pro NodeMCU, MicroPython a vybrané AT príkazy. Vyžaduje instalované JAVA prostředí Standard Edition - SE ver 7 a vyšší.
+
+
+Stránka projektu na GitHubu: [[https://github.com/4refr0nt/ESPlorer|ESPlorer]]
+
+
+ESPlorer můžete stáhnout [[http://esp8266.ru/esplorer/#download|zde]].
+
+Podporované platformy:
+
+  * Windows(x86, x86-64)
+  * Linux(x86, x86-64, ARM soft & hard float)
+  * Solaris(x86, x86-64)
+  * Mac OS X(x86, x86-64, PPC, PPC64)
+  
+{{ project:wiki_nodemcu_esplorer.png }}
+
+Výstup ze konzole ESPloreru
+<code>
+> =node.heap()
+45264
+> 
+</code>
+
+
+==== Instalace MongoDB Serveru ====
+Pro ukládání dat jsme si vybrali MondoDB. MongoDB je multiplatformní dokumentová databáze. Řadí se mezi NoSQL databáze a místo tradičních relačních databází využívajících tabulky používá dokumenty podobné formátu JSON a dynamické databázové schéma, které umožňuje vytváření a integraci dat s Node.js.
+
+Původní návod si mužete přečíst [[https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/|zde]]. 
+
+  * Prvně si stáhněte instalační balíček [[https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-3.2.10-signed.msi|mongodb-win32-x86_64-2008plus-ssl-3.2.10-signed.msi]]
+  * Nainstalujte balíček ''mongodb-win32-x86_64-2008plus-ssl-3.2.10-signed.msi''
+  * Přidejte cestu k instalaci MongoDB do systémové proměné ''PATH''
+<code>
+PS C:\> $env:path += ";" + "C:\Program Files\mongodb\Server\3.2\bin"
+PS C:\> [Environment]::SetEnvironmentVariable("PATH", $env:path, "Machine")
+</code>
+  * Vytvoření složky pro databáze
+<code>
+PS C:\> New-Item -ItemType "directory" -Path c:\data -Force
+PS C:\> New-Item -ItemType "directory" -Path c:\data\db -Force
+</code>
+  * Vytvoření složky pro logy
+<code>
+PS C:\> New-Item -ItemType "directory" -Path "c:\data\log" -Force
+</code>
+  * Vytvoření logu
+<code>
+PS C:\> New-Item -ItemType "file" -Path "c:\data\log\mongo.log" -Force
+</code>
+  * Vytvoření konfigurace pro MongoDB
+<code>
+PS C:\> New-Item -ItemType "file" -Path "C:\Program Files\MongoDB\Server\3.2\bin\mongod.cfg" -Force
+PS C:\> $MONGODBCONF = "systemLog:`n    destination: file`n    path: c:\data\log\mongo.log`nstorage:`n    dbPath: c:\data\db"
+PS C:\> $MONGODBCONF | Out-File -FilePath "C:\Program Files\MongoDB\Server\3.2\bin\mongod.cfg" -Append
+PS C:\> more "C:\Program Files\MongoDB\Server\3.2\bin\mongod.cfg"
+systemLog:
+    destination: file
+    path: C:\Data\log\mongod.log
+storage:
+    dbPath: C:\Data\db
+</code>
+  * Vytvoření s spuštění MongoDB služby
+<code>
+PS C:\> Invoke-Expression "& `"C:\Program Files\MongoDB\Server\3.2\bin\mongod.exe`" --config `"C:\Program Files\MongoDB\Server\3.2\bin\mongod.cfg`" --install"
+PS C:\> Set-Service MongoDB -Status Running
+PS C:\> Get-Service MongoDB
+
+Status   Name               DisplayName
+------   ----               -----------
+Running  MongoDB            MongoDB
+</code>
+
+Pro automatickou instalaci jsem napsal v PowerShellu 5 [[https://github.com/lichnak/nodemcu-labka/blob/master/doc/wiki/cs/InstallMongoDB.ps1|MongDB Instalační PowerShell Skript]]
+
+
+==== Instalace Node.js ==== 
+[[http://nodejs.org/|Node.js]] je vysoce výkonné, událostmi řízené prostředí pro Javascript. Základem Node.js je javascriptový interpret V8 z Google Chrome. Nad ním je tenká vrstva kódu v C++ poskytující minimální nutné zázemí (event-loop vyhodnocující příchozí události, obsluha I/O bufferů a jiné).
+
+Stránka dokumentace projektu [[https://nodejs.org/download/release/latest/docs/api/|Node.js API]]
+
+Pokud používáté Node v7.1.0 reinstalujte Node.js na verzi v7.0.0. Node.js v7.1.0 má známou chybu pro platformu Windows, chyba znemožňuje správné spouštění Node aplikací při použítí Powershell nebo CMD.
+
+  * Stáhněte si 64 bitovou verzi Node.js (32 bitová je pro hipstery) [[https://nodejs.org/download/release/v7.0.0/node-v7.0.0-x64.msi|node-v7.0.0-x64.msi]]
+  * Nainstalujte balíček ''node-v7.0.0-x64.msi'', výchozí instalační cesta je ''C:\Program Files\nodejs''
+  * Pokud jste si během instalace nevybrali možnost ''Add PATH'', pak přidejte cestu k instalaci Node.js a cestu do systémové proměné ''PATH'' nyní
+<code>
+PS C:\> $NPMPATH = $Env:USERPROFILE + "\AppData\Roaming\npm"
+PS C:\> New-Item -ItemType "directory" -Path $NPMPATH
+PS C:\> $Env:PATH += ";" + $NPMPATH + ";C:\Program Files\nodejs"
+PS C:\> [Environment]::SetEnvironmentVariable("PATH", $Env:PATH, "Machine")
+</code>
+
+
+==== Instalace Pythonu ==== 
+
+Pro další práci budeme potřeboavat Python verze 2.7. Node.js balíček node-gyf nepodporuje Pyhthon v3.x.x
+
+  * Stáhněte 64 bitovou verzi [[https://www.python.org/downloads/windows/download|Python v2.7]]
+  * Nainstalujte balíček ''python-2.7.12.amd64.msi''
+  * Můžete použít výchozí nastavení instalace a následně přidat Python do systémový proměných ''PATH'' a ''PYTHON''
+<code>
+PS C:\> $Env:PATH += ";C:\Program Files\Python27"
+PS C:\> [Environment]::SetEnvironmentVariable("PATH", $Env:PATH, "Machine")
+PS C:\> [Environment]::SetEnvironmentVariable("PYTHON", "C:\Program Files\Python27", "Machine")
+</code>
+  * Nastavíme Node.js verzi Pythonu do konfigurace
+<code>
+  PS C:\> cd "C:\Program Files\nodejs\"
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>npm config set python "C:\Program Files\Python27\python.exe"
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs> 
+</code>
+
+
+==== Instalace Node-Red ====
+
+
+Instalace Node.js balíčků potřebných pro následnou instalaci Node-Red. Prvně nainstalujte potřebné nástroje od Microsoftu ''windows-build-tools'' pro kompilaci Node.js balíčků, abychom předešli problémům s řešením závislostí balíčků. 
+<code>
+PS C:\> cd "C:\Program Files\nodejs\"
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>npm install -g --production windows-build-tools
+C:\Program Files\nodejs>npm install -g node-gyp
+C:\Program Files\nodejs>npm install -g bindings
+C:\Program Files\nodejs>npm install -g bcrypt
+C:\Program Files\nodejs>npm install -g bson
+C:\Program Files\nodejs>npm install -g bufferutil
+C:\Program Files\nodejs>npm install -g kerberos
+C:\Program Files\nodejs>npm install -g mqtt
+C:\Program Files\nodejs>npm install -g mongodb
+C:\Program Files\nodejs>npm install -g nan
+C:\Program Files\nodejs>npm install -g node-sass
+C:\Program Files\nodejs>npm install -g options
+C:\Program Files\nodejs>npm install -g phantomjs
+C:\Program Files\nodejs>npm install -g pm2
+C:\Program Files\nodejs>npm install -g pm2-windows-startup
+C:\Program Files\nodejs>npm install -g sqlite3
+C:\Program Files\nodejs>npm install -g ultron
+C:\Program Files\nodejs>npm install -g utf-8-validate
+C:\Program Files\nodejs>npm install -g ws
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs> 
+</code>
+
+
+Konfigurace pm2-windows-startup
+<code>
+PS C:\> cd "C:\Program Files\nodejs\"
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>pm2-startup install
+C:\Program Files\nodejs>pm2 save
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs>
+</code>
+
+
+Instalace Node-Red
+<code>
+PS C:\> cd "C:\Program Files\nodejs\"
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>npm install -g node-red
+C:\Program Files\nodejs>npm install -g node-red-dashboard
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs>
+</code>
+
+Spustění Node-Red
+<code>
+PS C:\> cd "C:\Program Files\nodejs\"
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>node "%USERPROFILE%\AppData\Roaming\npm\node_modules\node-red\red.js"
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs>
+</code>
+
+Konfigurace automatického spuštění Node-Red
+<code>
+PS C:\> cd "C:\Program Files\nodejs\"
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>pm2 start "%USERPROFILE%\AppData\Roaming\npm\node_modules\node-red\red.js"
+C:\Program Files\nodejs>pm2 save
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs>
+</code>
+
+Nyní můžeme spustit Node-RED editor na [[http://localhost:1880|http://localhost:1880]]
+
+{{project:wiki_nodemcu_windev_nodered.png}}
+
+==== Instalace Mosquitto MQTT Broker ====
+Pro roli MQTT Brokera jsme si vybrali implementaci Mosquitto.
+
+  * Prvně si stáhněte potřebné instalační soubory pro [[https://slproweb.com/download/Win32OpenSSL_Light-1_0_2j.exe|OpenSSL]], [[http://mirror.ibcp.fr/pub/eclipse//mosquitto/binary/win32/mosquitto-1.4.10-install-win32.exe|Mosquitto]] a knihovnu [[ftp://sources.redhat.com/pub/pthreads-win32/dll-latest/dll/x86/pthreadVC2.dll|pThreads]]
+  * Nainstalujte OpenSSL balíček ''Win32OpenSSL_Light-1_0_2j.exe''
+  * Nainstalujte Mosquitto balíček ''mosquitto-1.4.10-install-win32.exe''
+  * Zkopírujte staženou knihovnu ''pthreadVC2.dll'' do instalační složky Mosquitto
+<code>
+PS C:\> dir "C:\Program Files (x86)\mosquitto\pthreadVC2.dll"
+
+
+    Directory: C:\Program Files (x86)\mosquitto
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        27.5.2012      1:00          55808 pthreadVC2.dll
+</code>
+  * Zkopírujte OpenSSL knihovny ''libeay32.dll'' a ''ssleay32.dll'' do instalační složky Mosquitto
+<code>
+PS C:\> dir "C:\Program Files (x86)\OpenSSL-Win32-102j\*eay32.dll"
+
+
+    Directory: C:\Program Files (x86)\OpenSSL-Win32-102j
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        26.9.2016     10:00        1265664 libeay32.dll
+-a----        26.9.2016     10:00         274432 ssleay32.dll
+
+PS C:\> copy "C:\Program Files (x86)\OpenSSL-Win32-102j\*eay32.dll" "C:\Program Files (x86)\mosquitto\"
+PS C:\> dir "C:\Program Files (x86)\mosquitto\*eay32.dll"
+
+
+    Directory: C:\Program Files (x86)\mosquitto
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        26.9.2016     10:00        1265664 libeay32.dll
+-a----        26.9.2016     10:00         274432 ssleay32.dll
+</code>
+  * Pokud potřebujete upravte si nastavení Mosquitto konfigurace
+<code>
+PS C:\> notepad "C:\Program Files (x86)\mosquitto\mosquitto.conf"
+</code>
+  * Spusťte Mosquitto službu
+<code>
+PS C:\> Set-Service Mosquitto -Status Running
+PS C:\> Get-Service Mosquitto
+
+Status   Name               DisplayName
+------   ----               -----------
+Running  mosquitto          Mosquitto Broker
+</code>
+
+
+==== Testování MQTT s MQTTLens ====
+
+Testování MQTT používám rozšíření pro prohlížeč Chrome MQTTLens.
+
+{{project:wiki_nodemcu_mqttlens.png?750}}

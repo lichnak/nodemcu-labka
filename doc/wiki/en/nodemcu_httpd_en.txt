@@ -1,0 +1,109 @@
+|**Project owner:**| [[user:lichnak|lichnak]], [[user:peterbay,|PeterBay]] |
+|**Interested:** |  |
+|**Related:**| |
+|**Reference:**| https://Espressif.com |
+| **License:** | [[http://creativecommons.org/licenses/by-sa/4.0/|Attribution-ShareAlike 4.0 International; CC BY-SA]]  |
+====== NodeMCU HTTP Server ======
+[[user:peterbay,|PeterBay]] hero
+
+=== Deploy httpd to ESP8266 ===
+  * Copy file ''httpd.c'' to folder ''app/modules/''
+<code>
+  cp httpd.c ~/nodemcu-firmware/nodemcu-firmware-2.0.0-master_20170202/app/modules/
+</code>
+  * Edit file ''app/include/user_modules.h'' and add one line to user modules.
+<code>
+mcedit ~/nodemcu-firmware/nodemcu-firmware-2.0.0-master_20170202/app/include/user_modules.h
+
+#define LUA_USE_MODULES_HTTPD
+</code>
+  * Compile firmware as was descibed [[:project:nodemcu_lbe:en|here]]
+  * Connect nodeMCU to USB
+{{ project:wiki_nodemcu_lolin.png }}
+  * Upload bootloader //bin/0x00000.bin// and firmware //bin/0x10000.bin// to ESP8266 as was descibed for Windows 10 [[:project:nodemcu_windev:en|here]] and for Ubuntu [[:project:nodemcu_ubudev:en|here]]
+{{ project:wiki_nodemcu_esp8266flasher_dual.png?300 }}
+  * Open ESPlorer and connect to nodeMCU
+<code>
+Formatting file system. Please wait...
+Waiting answer from ESP - Timeout reached. Command aborted.
+Formatting file system. Please wait...
+
+NodeMCU 2.0.0 build unspecified powered by Lua 5.1.4 on SDK 2.0.0(656edbf)
+lua: cannot open init.lua
+> 
+</code>
+  * Upload httpd files to ESP8266
+<code>
+> Uploading to ESP file about.tmpl...Success
+> Uploading to ESP file api.tmpl...Success
+> Uploading to ESP file assemble.lua...Success
+> Uploading to ESP file console.tmpl...Success
+> Uploading to ESP file edit.tmpl...Success
+> Uploading to ESP file ext_httpd.lua...Success
+> Uploading to ESP file ext_wifi.lua...Success
+> Uploading to ESP file ext_wifi_settings.lua...Success
+> Uploading to ESP file favicon.ico...Success
+> Uploading to ESP file gpio.tmpl...Success
+> Uploading to ESP file gpio_set.tmpl...Success
+> Uploading to ESP file httpd.lua...Success
+> Uploading to ESP file index.tmpl...Success
+> Uploading to ESP file init.lua...Success
+> Uploading to ESP file page.tmpl...Success
+> Uploading to ESP file static__console.js...Success
+> Uploading to ESP file static__favicon.ico...Success
+> Uploading to ESP file static__node.css...Success
+> Uploading to ESP file static__node.js...Success
+> Uploading to ESP file static__svg.js...Success
+> Uploading to ESP file wifi.tmpl...Success
+</code>
+  * Configure script ''ext_wifi_settings.lua'' for WiFi connection strings
+<code>
+> file.open("ext_wifi_settings.lua","w+");
+> w = file.writeline
+> w([==[wifiSSID="YOUR_WIFI_SSID"]==]);
+> w([==[wifiPassword="YOUR_WIFI_PASSPHRASE"]==]);
+> file.close();
+</code>
+  * On ESP8266 execute script ''assemble.lua''
+<code>
+> dofile("assemble.lua")
+remove: static/console.js
+rename: static__console.js -> static/console.js
+remove: static/node.css
+rename: static__node.css -> static/node.css
+remove: static/node.js
+rename: static__node.js -> static/node.js
+remove: static/svg.js
+rename: static__svg.js -> static/svg.js
+remove: static/favicon.ico
+rename: static__favicon.ico -> static/favicon.ico
+load content file: index.tmpl
+build: static/index.htm
+load content file: api.tmpl
+build: static/api.htm
+load content file: gpio.tmpl
+build: static/gpio.htm
+load content file: wifi.tmpl
+build: static/wifi.htm
+load content file: console.tmpl
+build: static/console.htm 
+load content file: edit.tmpl
+build: static/edit.htm
+</code>
+  * Restart nodeMCU with ''RST'' button
+  * Wait for nodeMCU start up
+<code>
+NodeMCU 2.0.0 build unspecified powered by Lua 5.1.4 on SDK 2.0.0(656edbf)
+
+WIFI initialization - mode(STATION)
+
+STATION
+WIFI - Connecting to SSID (YOUR_WIFI_SSID)...
+Starting Web Server - port: 	80
+> IP Info: 
+IP Address: 	YOUR-NODEMCU-IP-ADDRESS
+Netmask: 	YOUR-NETWORK-MASK
+Gateway Addr: 	YOUR-NETWORK-GATEWAY	
+</code>
+  * Open ''YOUR-NODEMCU-IP-ADDRESS'' in Web browser
+{{ project:wiki_nodemcu_httpd.png }}

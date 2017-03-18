@@ -1,0 +1,84 @@
+﻿|**Project owner:**| [[user:lichnak|lichnak]], [[user:peterbay,|PeterBay]] |
+|**Interested:** |  |
+|**Related:**| |
+|**Reference:**| https://Espressif.com |
+| **License:** | [[https://creativecommons.org/licenses/by-sa/4.0/|Attribution-ShareAlike 4.0 International; CC BY-SA]]  
+====== NodeMCU ======
+{{project:nodemcu-style5-150px.png_150x150.png}}
+
+Last big news in area of cheap IoT devices is wireless microcontroller ESP8266 produced by chinnes manufaturer  [[https://Espressif.com/|Espressif Systems]]. Initial idea was to build functinal UART bridge with WiFi for avaiable microcontrollers. Nevertheless, ESP8266 microcontroller based on procesosor 32-bit Tensilica Xtensa LX106 running on frequency 80 MHz with integrated WiFi Kit was designed and produced.
+
+NodeMCU is open-source firmware and hardware developer kit, which speeds up IoT prototypes development in few lines of LUA scripts. NodeMCU firmware is made for chip ESP8266 WiFi SOC and brings LIU scripting enviranment naseb on eLua language. NodeMCU developer kit for ESP8266 implements GPIO, PWM, IIC, 1-Wirend a ADC on singleboard.
+
+nodeMCU Firmware [[https://github.com/nodemcu/nodemcu-firmware|NodeMCU Github]]
+
+Developer Kit v1.0 [[https://github.com/nodemcu/nodemcu-devkit-v1.0|NodeMCU DevKit 1.0 Github]]
+
+===== Hardware =====
+
+NodeMCU hardware is equipped by microcontroller unit [[https://labka.cz/wiki/doku.php?id=project:esp8266|ESP8266]] with embedded WiFi transceiver, as well by chip for communication on USB through serial port 'USB to UART' [[https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/Documents/CP2102-9.pdf|CP2102-9]], Low-Noise LDO Voltage Regulator [[https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/Documents/SPX3819M5-L-3-3.pdf|SPX3819]], safe voltage drop with schottky barrier rectifier [[https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/Documents/ss14.pdf|SS12]] and two buttons for reset ''RST'' and flash mode ''FLASH'' [[https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/Documents/PTS820_4mar13-248116.pdf|PTS820]]
+
+=== Technical parameters ===
+
+  * CPU: 80/160 MHz Tensilica Xtensa LX106
+  * RAM: 64 KiB of instruction RAM, 96 KiB of data RAM
+  * Flash: 512M - 4M, depends on model of ESP8266
+  * Embedded WiFi transceiver
+  * 16 GPIO pins, SPI, I2C, I2S, UART, 10-bit ADC
+
+=== Diagrams ===
+
+[[https://github.com/nodemcu/nodemcu-devkit-v1.0/blob/master/NODEMCU_DEVKIT_V1.0.PDF|NODEMCU_DEVKIT]] documentation and drawings for each nodeMCU part is located on GitHub.
+
+=== PIN Map ===
+
+{{project:nodemcu_devkit_v1.0_pinmap.png}}
+
+=== Important warning ===
+
+  * Pin D0 (''GPIO16'') can be use only as //gpio// read/write and doesn't support //interrupt/pwm/i2c/ow//.
+  * During each reboot, reset or wake activity pin ''GPIO15'' ''MUST'' be set to ''LOW'' and pin ''GPIO2'' ''MUST'' be set to ''HIGH''. Caution requires pin ''GPIO0'', when ''GPIO0'' is set to ''HIGH'' then boots into ''RUN'' mode. when ''GPIO0'' is set to ''LOW'' then boots into ''FLASH'' mode.
+  * If your intesion is use ''SLEEP'' mode, then interconnect pins ''GPIO16'' and ''RST'', and then ''GPIO16'' will be set to ''LOW'' after each wake activity.
+
+===== Firmware =====
+
+Programming nodeMCU requires programming model similiar to [[|Node.js]] with exception of using LUA instead of JavaScript. Best practices is to select for programming models asynchronous and even-driven models.
+
+NodeMCU Documentation [[https://github.com/nodemcu/nodemcu-firmware|page]].
+
+NodeMCU firmware can have various modules enabled, which extends capabilities of eLua language used in nodeMCU firmware.
+NodeMCU firmware is open-source and you can get compiled firmware several ways.
+
+  - Cloud service with firmware module wizard configuration [[https://nodemcu-build.com/|NodeMCU BUILD]]
+  - Compile firmware in [[https://hub.docker.com/r/marcelstoer/nodemcu-build/|Docker Image]]
+  - Create your own linux build environment to compile firmware
+  - Download existing firmware(s) with modules from 3rd party vendors
+
+
+===== IoT Infrastructure =====
+
+Let's introduce initial idea about sensors data processing and controlling of remote devices. Main communicatin and controlling compoments are base on technologies ''TCPIP'', ''MQTT'' and ''REST API''.
+
+{{project:wiki_nodemcu_mqtt_infra.png?750}}  
+  
+===== Labka nodeMCU Developer Kit =====
+
+Labka nodeMCU Developer Kit provide guidence through installation of software compoments for development and testing purposes of IoT Infrastructure.  Among other things Labka nodeMCU Developer Kit brings comfort into IoT development.  
+
+  * [[:project:nodemcu_lbe:en|Linux Firmware Build Environment for nodeMCU firmware]]
+  * [[:project:nodemcu_ubudev:en|Developer's IDE for nodeMCU on Ubuntu]]
+  * [[:project:nodemcu_windev:en|Developer's IDE for nodeMCU on Windows 10]]
+  * [[:project:nodemcu_le:en|LUA Scripting environment in nodeMCU firmware]]
+
+
+===== Prototypes =====
+
+Hardware and software technology sets to be included in IoT Infrastructure
+
+  * [[:project:nodemcu_httpd|NodeMCU HTTP Server]]
+  * [[:project:nodemcu_mqtt|NodeMCU MQTT Klient]]
+  * [[:project:nodemcu_ps|Perimetr Server]]
+  * [[:project:nodemcu_ccs|Central Control Server]]
+  * [[:project:nodemcu_lsa|Labka Smart API]]
+  * [[:project:nodemcu_sd|Smart Dashboard]]
+  * [[:project:nodemcu_ma|Mobile Applications]]

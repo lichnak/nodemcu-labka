@@ -1,0 +1,138 @@
+﻿|**Project owner:**| [[user:lichnak|lichnak]], [[user:peterbay,|PeterBay]] |
+|**Interested:** |  |
+|**Related:**| |
+|**Reference:**| https://Espressif.com |
+| **License:** | [[https://creativecommons.org/licenses/by-sa/3.0/|Uveďte původ-Zachovejte licenci; CC BY-SA]]  |
+===== NodeMCU - Vývojářské prostředí pro Ubuntu ===== 
+
+Cílem tohoto návodu je vytvořit vývojařské prostředí pro práci a vývoj NodeMCU řešení na operačním systému Ubuntu.
+
+=== Obsah ===
+  * [[nodemcu_ubudev#Nahrání firmware|Nahrání firmware]]
+  * [[nodemcu_ubudev#Nástoj Esptool.py|Nástoj Esptool.py]]
+  * [[nodemcu_ubudev#Nahrání LUA skriptů na ESP8266|Nahrání LUA skriptů na ESP8266]]
+  * [[nodemcu_ubudev#Nástroj Luatool|Nástroj Luatool]]
+  * [[nodemcu_ubudev#Instalace MQTT Brokera Mosquitto| Instalace MQTT Brokera Mosquitto]]
+  * [[nodemcu_ubudev#Installace MongoDB Serveru|Installace MongoDB Serveru]]
+  * [[nodemcu_ubudev#Instalace Node.js|Instalace Node.js]]
+  * [[nodemcu_ubudev#Instalace Node.js balíčků|Instalace Node.js balíčků ]]
+  * [[nodemcu_ubudev#Instalace Node-Red|Instalace Node-Red]]
+
+==== Nahrání firmware ====
+
+V návodu [[nodemcu_lbe|Linux Firmware Build Environment]] jsme si ukázali jak NodeMCU firmware zkompilovat. Firmware je nyní potřeba do ESP8266 nahrát. K tomuto účelu jsou na internetu dostupné programy a skripty. Předvedeme si nástroj pro Linux napsaný v Pythonu [[https://github.com/themadinventor/esptool|Esptool.py]].
+
+Před nahráním NodeMCU firmware se ujistěte, že jej se máte zkompilovaný. Také před nahráním firmwaru je třeba na NodeMCU zapnout FLASH mód a budťo zmáčknutím tlačítka FLASH na NodeMCU nebo před rebootem nastavte na pin ''GPIO0'' na hodnotu ''LOW''. [[nodemcu#Důležité upozornění|Viz. upozornění]]
+
+Výsledný zkopilovaný bootloader a firmware je uložen ve složce ''../nodemcu-firmware/bin''.
+Bootloader nese název 0x00000.bin a firmware 0x10000.bin.
+
+<code>
+-rw-rw-r--  1 node node  27872 Oct 26 11:21 0x00000.bin
+-rw-rw-r--  1 node node 357683 Oct 26 11:21 0x10000.bin
+</code>
+
+
+=== Nástoj Esptool.py ===
+Esptool vyžaduje Python 2. K instalaci ''esptool'' použijeme správce balíčků ''pip''.Pokud používáte verzi Pythonu 2 >=2.7.9 nebo Python 3 >=3.4 ''pip'' je již součástí vaší instalace. 
+
+Instalace pip:
+<code>
+python get-pip.py
+</code>
+Instalace esptool pomocí pip:
+<code>
+sudo pip install –upgrade esptool
+</code>
+
+Pokud máte výchozí verzi Python 3, pak příkaz bude následující:
+<code>
+sudo pip2 install esptool
+</code>
+
+Zkombinování bin souborů do monolitní binárky:
+<code>
+esptool.py make_image -f bin/0x00000.bin -a 0x00000 -f bin/0x10000.bin -a 0x10000 bin/flash.bin
+</code>
+
+Předtím než budeme nahrávat firmware ujistěte se, že jste členy ''dialout'' skupiny, která vám dá práva a můžete komunikovat přes sériový port např. ''/dev/ttyUSB0''.
+Přidání aktuálního uživatele do ''dialout'' skupiny:
+<code>
+sudo adduser $USER dialout
+</code>
+
+Nahrání výsledných binárek po kompilaci:
+<code>
+esptool.py --port /dev/ttyUSB0 write_flash -fm dio -fs 32m 0x00000 bin/0x00000.bin 0x10000 bin/0x10000.bin
+</code>
+
+Nahrání monolitické binárky:
+<code>
+esptool.py --port /dev/ttyUSB0 write_flash -fm dio -fs 32m 0x00000 bin/flash.bin
+</code>
+
+==== Nahrání LUA skriptů na ESP8266 ====
+Nástrojů pro nahravání existuje víc než dost a jsou zdokumentovány [[https://nodemcu.readthedocs.io/en/master/en/upload/|zde]].
+
+=== Nástroj Luatool ===
+
+Stránka projektu na GitHubu: [[https://github.com/4refr0nt/luatool|LUA Tool]]
+
+Stáhněte si ''luatool'':
+<code>
+mkdir -p ~/.opt && cd ~/.opt
+git clone https://github.com/4refr0nt/luatool.git
+</code>
+
+Nahrání //init.lua// soboru:
+<code>
+cd ~/.opt/luatool/luatool
+python luatool.py --port /dev/ttyUSB0 --src init.lua --dest init.lua --verbose
+</code>
+
+==== Instalace MQTT Brokera Mosquitto ==== 
+<code>
+
+</code>
+    
+==== Installace MongoDB Serveru ====
+<code>
+
+</code>
+ 
+==== Instalace Node.js ==== 
+
+<code>
+
+</code>
+
+==== Instalace Node.js balíčků ====
+
+Instalace Node.js balíčků mqtt, mongodb, pm2
+<code>
+npm install -g mqtt
+npm install -g mongodb
+npm install -g pm2
+</code>
+
+==== Instalace Node-Red ==== 
+Instalace Node-Red
+<code>
+npm install -g node-red
+</code>
+
+Instalace vlastní sestavy Node-Red 
+https://github.com/node-red/node-red/releases/latest
+<code>
+npm install --production
+</code>
+
+Spustění Node-Red
+<code>
+node node_modules/node-red/red.js
+</code>
+
+Konfigurace automatického spuštění Node-Red
+<code>
+pm2 start C:\Users\<USER-NAME>\AppData\Roaming\npm\node_modules\node-red\red.js --save
+</code>

@@ -1,0 +1,280 @@
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>npm install -g mqtt
+C:\Users\Adam Lichnovsky\AppData\Roaming\npm\mqtt_pub -> C:\Users\Adam Lichnovsky\AppData\Roaming\npm\node_modules\mqtt\bin\pub.js                                 -of-stream
+C:\Users\Adam Lichnovsky\AppData\Roaming\npm\mqtt_sub -> C:\Users\Adam Lichnovsky\AppData\Roaming\npm\node_modules\mqtt\bin\sub.js
+C:\Users\Adam Lichnovsky\AppData\Roaming\npm\mqtt -> C:\Users\Adam Lichnovsky\AppData\Roaming\npm\node_modules\mqtt\mqtt.js
+C:\Users\Adam Lichnovsky\AppData\Roaming\npm
+`-- mqtt@2.1.3
+  +-- commist@1.0.0
+  | `-- leven@1.0.2
+  +-- concat-stream@1.5.2
+  | +-- readable-stream@2.0.6
+  | `-- typedarray@0.0.6
+  +-- end-of-stream@1.1.0
+  | `-- once@1.3.3
+  |   `-- wrappy@1.0.2
+  +-- help-me@1.0.1
+  | +-- callback-stream@1.1.0
+  | +-- glob-stream@5.3.5
+  | | +-- extend@3.0.0
+  | | +-- glob@5.0.15
+  | | | +-- inflight@1.0.6
+  | | | +-- minimatch@3.0.3
+  | | | | `-- brace-expansion@1.1.6
+  | | | |   +-- balanced-match@0.4.2
+  | | | |   `-- concat-map@0.0.1
+  | | | `-- path-is-absolute@1.0.1
+  | | +-- glob-parent@3.0.1
+  | | | +-- is-glob@3.1.0
+  | | | | `-- is-extglob@2.1.0
+  | | | `-- path-dirname@1.0.2
+  | | +-- micromatch@2.3.11
+  | | | +-- arr-diff@2.0.0
+  | | | | `-- arr-flatten@1.0.1
+  | | | +-- array-unique@0.2.1
+  | | | +-- braces@1.8.5
+  | | | | +-- expand-range@1.8.2
+  | | | | | `-- fill-range@2.2.3
+  | | | | |   +-- is-number@2.1.0
+  | | | | |   +-- isobject@2.1.0
+  | | | | |   +-- randomatic@1.1.5
+  | | | | |   `-- repeat-string@1.6.1
+  | | | | +-- preserve@0.2.0
+  | | | | `-- repeat-element@1.1.2
+  | | | +-- expand-brackets@0.1.5
+  | | | | `-- is-posix-bracket@0.1.1
+  | | | +-- extglob@0.3.2
+  | | | | `-- is-extglob@1.0.0
+  | | | +-- filename-regex@2.0.0
+  | | | +-- is-extglob@1.0.0
+  | | | +-- is-glob@2.0.1
+  | | | +-- kind-of@3.0.4
+  | | | | `-- is-buffer@1.1.4
+  | | | +-- normalize-path@2.0.1
+  | | | +-- object.omit@2.0.1
+  | | | | +-- for-own@0.1.4
+  | | | | | `-- for-in@0.1.6
+  | | | | `-- is-extendable@0.1.1
+  | | | +-- parse-glob@3.0.4
+  | | | | +-- glob-base@0.3.0
+  | | | | | +-- glob-parent@2.0.0
+  | | | | | `-- is-glob@2.0.1
+  | | | | |   `-- is-extglob@1.0.0
+  | | | | +-- is-dotfile@1.0.2
+  | | | | +-- is-extglob@1.0.0
+  | | | | `-- is-glob@2.0.1
+  | | | `-- regex-cache@0.4.3
+  | | |   +-- is-equal-shallow@0.1.3
+  | | |   `-- is-primitive@2.0.0
+  | | +-- ordered-read-streams@0.3.0
+  | | | `-- is-stream@1.1.0
+  | | +-- through2@0.6.5
+  | | | `-- readable-stream@1.0.34
+  | | |   `-- isarray@0.0.1
+  | | +-- to-absolute-glob@0.1.1
+  | | | `-- extend-shallow@2.0.1
+  | | `-- unique-stream@2.2.1
+  | |   +-- json-stable-stringify@1.0.1
+  | |   | `-- jsonify@0.0.0
+  | |   `-- through2-filter@2.0.0
+  | `-- through2@2.0.1
+  |   `-- readable-stream@2.0.6
+  +-- inherits@2.0.3
+  +-- minimist@1.2.0
+  +-- mqtt-packet@5.2.0
+  | +-- bl@1.1.2
+  | | `-- readable-stream@2.0.6
+  | `-- process-nextick-args@1.0.7
+  +-- pump@1.0.1
+  +-- readable-stream@2.2.2
+  | +-- buffer-shims@1.0.0
+  | +-- core-util-is@1.0.2
+  | +-- isarray@1.0.0
+  | +-- string_decoder@0.10.31
+  | `-- util-deprecate@1.0.2
+  +-- reinterval@1.1.0
+  +-- split2@2.1.0
+  +-- websocket-stream@3.3.2
+  | +-- duplexify@3.5.0
+  | | +-- end-of-stream@1.0.0
+  | | `-- stream-shift@1.0.0
+  | `-- ws@1.1.1
+  |   +-- options@0.0.6
+  |   `-- ultron@1.0.2
+  `-- xtend@4.0.1
+
+
+C:\Program Files\nodejs>npm install -g mongodb
+C:\Users\Adam Lichnovsky\AppData\Roaming\npm                                                                                                                       a3\node_modules
+`-- mongodb@2.2.11
+  +-- es6-promise@3.2.1
+  +-- mongodb-core@2.0.13
+  | +-- bson@0.5.7
+  | `-- require_optional@1.0.0
+  |   +-- resolve-from@2.0.0
+  |   `-- semver@5.3.0
+  `-- readable-stream@2.1.5
+    +-- buffer-shims@1.0.0
+    +-- core-util-is@1.0.2
+    +-- inherits@2.0.3
+    +-- isarray@1.0.0
+    +-- process-nextick-args@1.0.7
+    +-- string_decoder@0.10.31
+    `-- util-deprecate@1.0.2
+
+
+C:\Program Files\nodejs>npm install -g pm2
+C:\Users\Adam Lichnovsky\AppData\Roaming\npm\pm2-dev -> C:\Users\Adam Lichnovsky\AppData\Roaming\npm\node_modules\pm2\bin\pm2-dev                                  \node_modules
+C:\Users\Adam Lichnovsky\AppData\Roaming\npm\pm2-docker -> C:\Users\Adam Lichnovsky\AppData\Roaming\npm\node_modules\pm2\bin\pm2-docker
+C:\Users\Adam Lichnovsky\AppData\Roaming\npm\rundev -> C:\Users\Adam Lichnovsky\AppData\Roaming\npm\node_modules\pm2\bin\rundev
+C:\Users\Adam Lichnovsky\AppData\Roaming\npm\pm2 -> C:\Users\Adam Lichnovsky\AppData\Roaming\npm\node_modules\pm2\bin\pm2
+C:\Users\Adam Lichnovsky\AppData\Roaming\npm
+`-- pm2@2.1.5
+  +-- async@1.5.2
+  +-- chalk@1.1.3
+  | +-- ansi-styles@2.2.1
+  | +-- escape-string-regexp@1.0.5
+  | +-- has-ansi@2.0.0
+  | | `-- ansi-regex@2.0.0
+  | +-- strip-ansi@3.0.1
+  | `-- supports-color@2.0.0
+  +-- chokidar@1.6.1
+  | +-- anymatch@1.3.0
+  | | +-- arrify@1.0.1
+  | | `-- micromatch@2.3.11
+  | |   +-- arr-diff@2.0.0
+  | |   | `-- arr-flatten@1.0.1
+  | |   +-- array-unique@0.2.1
+  | |   +-- braces@1.8.5
+  | |   | +-- expand-range@1.8.2
+  | |   | | `-- fill-range@2.2.3
+  | |   | |   +-- is-number@2.1.0
+  | |   | |   +-- isobject@2.1.0
+  | |   | |   +-- randomatic@1.1.5
+  | |   | |   `-- repeat-string@1.6.1
+  | |   | +-- preserve@0.2.0
+  | |   | `-- repeat-element@1.1.2
+  | |   +-- expand-brackets@0.1.5
+  | |   | `-- is-posix-bracket@0.1.1
+  | |   +-- extglob@0.3.2
+  | |   +-- filename-regex@2.0.0
+  | |   +-- kind-of@3.0.4
+  | |   | `-- is-buffer@1.1.4
+  | |   +-- normalize-path@2.0.1
+  | |   +-- object.omit@2.0.1
+  | |   | +-- for-own@0.1.4
+  | |   | | `-- for-in@0.1.6
+  | |   | `-- is-extendable@0.1.1
+  | |   +-- parse-glob@3.0.4
+  | |   | +-- glob-base@0.3.0
+  | |   | `-- is-dotfile@1.0.2
+  | |   `-- regex-cache@0.4.3
+  | |     +-- is-equal-shallow@0.1.3
+  | |     `-- is-primitive@2.0.0
+  | +-- async-each@1.0.1
+  | +-- glob-parent@2.0.0
+  | +-- inherits@2.0.3
+  | +-- is-binary-path@1.0.1
+  | | `-- binary-extensions@1.7.0
+  | +-- is-glob@2.0.1
+  | | `-- is-extglob@1.0.0
+  | +-- path-is-absolute@1.0.1
+  | `-- readdirp@2.1.0
+  |   +-- graceful-fs@4.1.10
+  |   +-- minimatch@3.0.3
+  |   | `-- brace-expansion@1.1.6
+  |   |   +-- balanced-match@0.4.2
+  |   |   `-- concat-map@0.0.1
+  |   +-- readable-stream@2.2.2
+  |   | +-- buffer-shims@1.0.0
+  |   | +-- core-util-is@1.0.2
+  |   | +-- isarray@1.0.0
+  |   | +-- process-nextick-args@1.0.7
+  |   | +-- string_decoder@0.10.31
+  |   | `-- util-deprecate@1.0.2
+  |   `-- set-immediate-shim@1.0.1
+  +-- cli-table@0.3.1
+  | `-- colors@1.0.3
+  +-- commander@2.9.0
+  | `-- graceful-readlink@1.0.1
+  +-- cron@1.1.1
+  | `-- moment-timezone@0.5.9
+  +-- debug@2.3.0
+  | `-- ms@0.7.2
+  +-- eventemitter2@1.0.5
+  +-- fclone@1.0.10
+  +-- gkt@1.0.0
+  +-- mkdirp@0.5.1
+  | `-- minimist@0.0.8
+  +-- moment@2.16.0
+  +-- nssocket@0.6.0
+  | +-- eventemitter2@0.4.14
+  | `-- lazy@1.0.11
+  +-- pidusage@1.1.0
+  +-- pm2-axon@3.0.2
+  | +-- amp@0.3.1
+  | +-- amp-message@0.1.2
+  | +-- debug@2.2.0
+  | | `-- ms@0.7.1
+  | `-- escape-regexp@0.0.1
+  +-- pm2-axon-rpc@0.4.5
+  | `-- fclone@1.0.8
+  +-- pm2-deploy@0.3.3
+  | `-- tv4@1.2.7
+  +-- pm2-multimeter@0.1.2
+  | `-- charm@0.1.2
+  +-- pmx@0.6.8
+  | `-- json-stringify-safe@5.0.1
+  +-- semver@5.3.0
+  +-- shelljs@0.7.5
+  | +-- glob@7.1.1
+  | | +-- fs.realpath@1.0.0
+  | | +-- inflight@1.0.6
+  | | | `-- wrappy@1.0.2
+  | | `-- once@1.4.0
+  | +-- interpret@1.0.1
+  | `-- rechoir@0.6.2
+  |   `-- resolve@1.1.7
+  +-- source-map-support@0.4.6
+  | `-- source-map@0.5.6
+  +-- vizion@0.2.13
+  `-- yamljs@0.2.8
+    `-- argparse@1.0.9
+      `-- sprintf-js@1.0.3
+
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.0.0 (node_modules\pm2\node_modules\chokidar\node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.0.15: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"})
+
+C:\Program Files\nodejs>npm install -g pm2-windows-startup
+C:\Users\Adam Lichnovsky\AppData\Roaming\npm\pm2-startup -> C:\Users\Adam Lichnovsky\AppData\Roaming\npm\node_modules\pm2-windows-startup\index.js                 ing\pm2-windows-startup-866a6096\node_modules
+C:\Users\Adam Lichnovsky\AppData\Roaming\npm
+`-- pm2-windows-startup@1.0.3
+  +-- start-on-windows-boot@1.0.0
+  | `-- winreg@0.0.11
+  `-- yargs@3.32.0
+    +-- camelcase@2.1.1
+    +-- cliui@3.2.0
+    | +-- strip-ansi@3.0.1
+    | | `-- ansi-regex@2.0.0
+    | `-- wrap-ansi@2.0.0
+    +-- decamelize@1.2.0
+    +-- os-locale@1.4.0
+    | `-- lcid@1.0.0
+    |   `-- invert-kv@1.0.0
+    +-- string-width@1.0.2
+    | +-- code-point-at@1.1.0
+    | `-- is-fullwidth-code-point@1.0.0
+    |   `-- number-is-nan@1.0.1
+    +-- window-size@0.1.4
+    `-- y18n@3.2.1
+
+
+C:\Program Files\nodejs>exit
+PS C:\Program Files\nodejs> cmd
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. Všechna práva vyhrazena.
+
+C:\Program Files\nodejs>exit

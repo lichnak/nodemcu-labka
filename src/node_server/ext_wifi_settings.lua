@@ -1,0 +1,2 @@
+wifiSSID="YOUR_WIFI_SSID"
+wifiPassword="YOUR_WIFI_PASSPHRASE"
