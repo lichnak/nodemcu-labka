@@ -2,7 +2,7 @@
 |**Interested:** |  |
 |**Related:**| |
 |**Reference:**| https://Espressif.com |
-| **License:** | [[https://creativecommons.org/licenses/by-sa/3.0/|Uveďte původ-Zachovejte licenci; CC BY-SA]]  |
+| **License:** | [[https://creativecommons.org/licenses/by-sa/4.0/|Uveďte původ-Zachovejte licenci; CC BY-SA]]  |
 ===== NodeMCU - LUA Skriptovací prostředí =====
 
 Dokumentace k NodeMCU firmware skriptovacího prostředí na adrese [[https://nodemcu.readthedocs.io/en/master/|NodeMCU LUA Scripting Documentation]].

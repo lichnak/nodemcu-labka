@@ -2,7 +2,7 @@
 |**Interested:** |  |
 |**Related:**| |
 |**Reference:**| https://Espressif.com |
-| **License:** | [[https://creativecommons.org/licenses/by-sa/3.0/|Uveďte původ-Zachovejte licenci; CC BY-SA]]  |
+| **License:** | [[https://creativecommons.org/licenses/by-sa/4.0/|Uveďte původ-Zachovejte licenci; CC BY-SA]]  |
 ===== NodeMCU - HTTP Server =====
 HTTP server zpracovává vzdálené příkazy pomocí REST API.
 
